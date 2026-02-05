@@ -61,7 +61,7 @@
     z-index: 2;
   }
 
-  /* ❤️ hearts */
+  /* ❤️ floating hearts */
   .heart {
     position: absolute;
     bottom: -20px;
@@ -71,13 +71,43 @@
   }
 
   @keyframes floatUp {
-    0% {
+    from {
       transform: translateY(0) scale(1);
       opacity: 0.8;
     }
-    100% {
+    to {
       transform: translateY(-110vh) scale(1.6);
       opacity: 0;
+    }
+  }
+
+  /* ❤️ popup image */
+  #popup {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
+  }
+
+  #popup img {
+    max-width: 80%;
+    max-height: 80%;
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(255, 0, 100, 0.8);
+    animation: pop 0.5s ease;
+  }
+
+  @keyframes pop {
+    from {
+      transform: scale(0.5);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
     }
   }
 </style>
@@ -92,10 +122,17 @@
 
 <div id="msg"></div>
 
+<!-- ❤️ Image popup -->
+<div id="popup">
+  <!-- CHANGE IMAGE NAME HERE -->
+  <img src="valentine.jpg" alt="My Valentine">
+</div>
+
 <script>
 const noBtn = document.getElementById("no");
 const yesBtn = document.getElementById("yes");
 const msg = document.getElementById("msg");
+const popup = document.getElementById("popup");
 
 function moveButton() {
   const x = Math.random() * (window.innerWidth - 100);
@@ -109,23 +146,24 @@ noBtn.addEventListener("click", moveButton);
 
 yesBtn.addEventListener("click", () => {
   msg.innerText = "Yayyy! Best decision ever ❤️🥰";
+  popup.style.display = "flex";
 });
 
-/* ❤️ generate floating hearts */
+/* click anywhere to close image */
+popup.addEventListener("click", () => {
+  popup.style.display = "none";
+});
+
+/* ❤️ floating hearts */
 function createHeart() {
   const heart = document.createElement("div");
-  heart.classList.add("heart");
+  heart.className = "heart";
   heart.innerText = "❤️";
-
   heart.style.left = Math.random() * 100 + "vw";
   heart.style.fontSize = (15 + Math.random() * 25) + "px";
   heart.style.animationDuration = (4 + Math.random() * 3) + "s";
-
   document.body.appendChild(heart);
-
-  setTimeout(() => {
-    heart.remove();
-  }, 7000);
+  setTimeout(() => heart.remove(), 7000);
 }
 
 setInterval(createHeart, 300);
