@@ -24,6 +24,7 @@
     align-items: center;
     flex-direction: column;
     z-index: 2;
+    pointer-events: none; /* 🧠 IMPORTANT */
   }
 
   h1 {
@@ -39,6 +40,7 @@
     cursor: pointer;
     position: absolute;
     transition: transform 0.2s;
+    z-index: 5; /* 🔥 FIX */
   }
 
   .btn:hover {
@@ -66,7 +68,7 @@
     font-size: 24px;
     color: #d1005c;
     font-weight: bold;
-    z-index: 2;
+    z-index: 6;
   }
 
   /* Dropdown */
@@ -92,6 +94,7 @@
     font-size: 20px;
     animation: floatUp 6s linear infinite;
     opacity: 0.7;
+    pointer-events: none;
   }
 
   @keyframes floatUp {
@@ -216,7 +219,7 @@ yesBtn.addEventListener("click", () => {
   }
 
   msg.innerText = "Yayyy! Best decision ever ❤️🥰";
-  popupImg.src = mediaMap[chosen];
+  popupImg.src = mediaMap[chosen] || "";
   popup.style.display = "flex";
 });
 
@@ -225,7 +228,7 @@ popup.addEventListener("click", () => {
   popup.style.display = "none";
 });
 
-/* Hearts */
+/* Floating hearts */
 function createHeart() {
   const heart = document.createElement("div");
   heart.className = "heart";
@@ -242,3 +245,4 @@ setInterval(createHeart, 300);
 
 </body>
 </html>
+
