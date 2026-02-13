@@ -120,8 +120,8 @@
 <div id="selector">
   <select id="valentineSelect">
     <option value="">Choose your Valentine 💘</option>
-    <option value="aarabhi">Aarabhi</option>
     <option value="abishek">Abishek</option>
+    <option value="aarabhi">Aarabhi</option>
     <option value="amar">Amar</option>
     <option value="aravind">Aravind</option>
     <option value="asif">Asif</option>
@@ -155,11 +155,16 @@ const select = document.getElementById("valentineSelect");
 let yesSize = 1;
 
 const mediaMap = {
-  asif: "asif.gif",
+  amar: "amar.jpg",
+  namitha: "namitha.gif",
   avani: "avani.jpeg",
+  shone: "shone.gif",
+  aravind: "aravind.jpg",
+  aarabhi: "aarabhi.jpg",
   kurian: "kurian.gif",
   abishek: "abishek.gif.gif",
-  mariya: "mariya.gif"
+  mariya: "mariya.gif",
+  asif: "asif.gif"
 };
 
 function moveButton() {
@@ -179,11 +184,6 @@ yesBtn.addEventListener("click", () => {
   const chosen = select.value;
   if (!chosen) {
     msg.innerText = "Choose someone first 😏❤️";
-    return;
-  }
-
-  if (!mediaMap[chosen]) {
-    msg.innerText = "Media not added yet 😅";
     return;
   }
 
