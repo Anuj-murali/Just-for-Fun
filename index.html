@@ -8,43 +8,57 @@
 <style>
   body {
     margin: 0;
-    height: 100vh;
+    min-height: 100vh;
     overflow: hidden;
     background: linear-gradient(135deg, #ff9a9e, #fad0c4);
     font-family: Arial, sans-serif;
     text-align: center;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   h1 {
+    margin-top: 100px;
+    font-size: clamp(24px, 5vw, 42px);
+    padding: 0 15px;
+  }
+
+  /* Dropdown */
+  #selector {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+  }
+
+  #valentineSelect {
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: none;
+  }
+
+  /* Buttons */
+  .buttons {
     margin-top: 80px;
-    font-size: 6vw; /* Responsive text */
-    z-index: 2;
-    position: relative;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
   }
 
   .btn {
     padding: 12px 28px;
-    font-size: 18px;
-    border-radius: 10px;
+    font-size: clamp(14px, 2vw, 18px);
+    border-radius: 12px;
     border: none;
     cursor: pointer;
     transition: transform 0.2s;
   }
 
   .btn:hover {
-    transform: scale(1.1);
-  }
-
-  /* Button container */
-  .buttons {
-    position: absolute;
-    top: 55%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    z-index: 5;
+    transform: scale(1.08);
   }
 
   #yes {
@@ -59,30 +73,37 @@
   }
 
   #msg {
-    position: absolute;
-    top: 70%;
-    width: 100%;
-    font-size: 20px;
+    margin-top: 30px;
+    font-size: clamp(16px, 2vw, 20px);
     color: #d1005c;
     font-weight: bold;
-    z-index: 6;
   }
 
-  #selector {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    z-index: 10;
+  /* Popup */
+  #popup {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
   }
 
-  #valentineSelect {
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
+  #popup img {
+    max-width: 90%;
+    max-height: 80%;
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(255, 0, 100, 0.8);
+    animation: pop 0.4s ease;
   }
 
+  @keyframes pop {
+    from { transform: scale(0.6); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  /* Floating hearts */
   .heart {
     position: absolute;
     bottom: -20px;
@@ -96,45 +117,6 @@
     from { transform: translateY(0) scale(1); opacity: 0.8; }
     to { transform: translateY(-110vh) scale(1.6); opacity: 0; }
   }
-
-  #popup {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.65);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 20;
-  }
-
-  #popup img {
-    max-width: 90%;
-    max-height: 80%;
-    border-radius: 20px;
-    box-shadow: 0 0 30px rgba(255, 0, 100, 0.8);
-    animation: pop 0.5s ease;
-  }
-
-  @keyframes pop {
-    from { transform: scale(0.5); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-  }
-
-  /* Mobile tweaks */
-  @media (max-width: 600px) {
-    h1 {
-      font-size: 8vw;
-    }
-
-    .btn {
-      padding: 10px 18px;
-      font-size: 16px;
-    }
-
-    #msg {
-      font-size: 18px;
-    }
-  }
 </style>
 </head>
 
@@ -143,16 +125,16 @@
 <div id="selector">
   <select id="valentineSelect">
     <option value="">Choose your Valentine 💘</option>
-    <option value="abishek">Abishek</option>
-    <option value="asif">Asif</option>
     <option value="amar">Amar</option>
     <option value="namitha">Namitha</option>
-    <option value="shone">Shone</option>
-    <option value="kurian">Kurian</option>
-    <option value="aravind">Aravind</option>
     <option value="avani">Avani</option>
+    <option value="shone">Shone</option>
+    <option value="aravind">Aravind</option>
     <option value="aarabhi">Aarabhi</option>
+    <option value="kurian">Kurian</option>
+    <option value="abishek">Abishek</option>
     <option value="mariya">Mariya</option>
+    <option value="asif">Asif</option>
   </select>
 </div>
 
@@ -187,14 +169,22 @@ const mediaMap = {
   aravind: "aravind.gif",
   aarabhi: "aarabhi.gif",
   kurian: "kurian.gif",
-  abishek: "abishek.gif.gif",
+  abishek: "abishek.gif",
   mariya: "mariya.gif",
   asif: "asif.gif"
 };
 
+/* Move ONLY on click */
 function moveButton() {
-  const x = Math.random() * (window.innerWidth - 120);
-  const y = Math.random() * (window.innerHeight - 80);
+  const btnWidth = noBtn.offsetWidth;
+  const btnHeight = noBtn.offsetHeight;
+
+  const maxX = window.innerWidth - btnWidth - 20;
+  const maxY = window.innerHeight - btnHeight - 20;
+
+  const x = Math.random() * maxX;
+  const y = Math.random() * maxY;
+
   noBtn.style.position = "absolute";
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
@@ -203,11 +193,11 @@ function moveButton() {
   yesBtn.style.transform = `scale(${yesSize})`;
 }
 
-noBtn.addEventListener("mouseenter", moveButton);
 noBtn.addEventListener("click", moveButton);
 
 yesBtn.addEventListener("click", () => {
   const chosen = select.value;
+
   if (!chosen) {
     msg.innerText = "Choose someone first 😏❤️";
     return;
@@ -233,7 +223,12 @@ function createHeart() {
   setTimeout(() => heart.remove(), 7000);
 }
 
-setInterval(createHeart, 300);
+setInterval(createHeart, 400);
+</script>
+
+</body>
+</html>
+
 </script>
 
 </body>
